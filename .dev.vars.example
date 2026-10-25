@@ -1,0 +1,3 @@
+# Optional local development override. Never set this in production.
+# Local bypass also requires a loopback URL and no Access production variables.
+SWARMATORY_LOCAL_DEV=true

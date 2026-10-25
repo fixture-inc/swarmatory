@@ -1,0 +1,10 @@
+{
+  "accountId": "YOUR_CLOUDFLARE_ACCOUNT_ID",
+  "workerName": "swarmatory",
+  "databaseId": "YOUR_EXISTING_D1_DATABASE_ID",
+  "databaseName": "swarmatory",
+  "publicOrigin": "https://swarmatory.example.com",
+  "legacyHosts": [],
+  "accessTeamDomain": "https://your-team.cloudflareaccess.com",
+  "accessAud": "YOUR_ACCESS_APPLICATION_AUDIENCE"
+}

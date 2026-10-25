@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+dist/
+.build/
+.cloudflare/
+.wrangler/
+.deployment/
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+*.log

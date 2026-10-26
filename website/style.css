@@ -172,3 +172,9 @@
 @media (max-width: 600px) { .footer-about { order: 3; width: 100%; justify-content: center; padding-top: 14px; border-top: 1px solid var(--line); } }
 
 .project-source a,.release-note a{text-decoration:underline;text-underline-offset:3px}
+
+/* Keep the source link visible in the header on every screen size. */
+.header-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.header-github{white-space:nowrap}
+@media(max-width:800px){.site-header{gap:12px}.header-actions{gap:8px}.header-github{font-size:11px;gap:10px;padding:9px 12px}}
+@media(max-width:480px){.header-actions .header-cta{display:none}.site-header .wordmark{font-size:22px}.site-header .logo-tile{width:32px;height:32px;margin-right:8px}.site-header .logo-tile img{width:28px;height:28px}}

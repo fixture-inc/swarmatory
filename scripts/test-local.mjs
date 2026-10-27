@@ -152,6 +152,7 @@ try {
       "Local Worker was not ready after 60s; see test-results/worker.log",
     );
   await run(["tests/integration.mjs"]);
+  await run(["tests/mcp.mjs"]);
   await run(["tests/browser.mjs"]);
 } catch (error) {
   console.error(error);

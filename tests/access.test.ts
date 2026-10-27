@@ -74,6 +74,61 @@ async function assertDenied(assertion: string | undefined, expected = 401) {
 }
 
 describe("Cloudflare Access API boundary", () => {
+  it("protects MCP discovery and tool calls with the same signed assertion", async () => {
+    const { env, prepare } = setup();
+    const body = JSON.stringify({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "tools/list",
+      params: {},
+    });
+    const headers = {
+      "content-type": "application/json",
+      accept: "application/json, text/event-stream",
+    };
+    const rejected: Record<string, string>[] = [
+      {},
+      { authorization: "Bearer oauth:unresolved" },
+      { "Cf-Access-Jwt-Assertion": "forged" },
+    ];
+    for (const extra of rejected) {
+      const response = await handleRequest(
+        new Request(`${app}/mcp`, {
+          method: "POST",
+          headers: { ...headers, ...extra },
+          body,
+        }),
+        env,
+      );
+      expect(response.status).toBe(401);
+    }
+    const assertion = await token();
+    const allowed = await handleRequest(
+      new Request(`${app}/mcp`, {
+        method: "POST",
+        headers: { ...headers, "Cf-Access-Jwt-Assertion": assertion },
+        body,
+      }),
+      env,
+    );
+    expect(allowed.status).toBe(200);
+    expect(await allowed.text()).toContain("list_agents");
+    const crossSite = await handleRequest(
+      new Request(`${app}/mcp`, {
+        method: "POST",
+        headers: {
+          ...headers,
+          "Cf-Access-Jwt-Assertion": assertion,
+          origin: "https://attacker.example",
+        },
+        body,
+      }),
+      env,
+    );
+    expect(crossSite.status).toBe(403);
+    expect(prepare).not.toHaveBeenCalled();
+  });
+
   it("verifies signed identity and reuses the fixed team JWKS", async () => {
     const { env, prepare } = setup();
     const assertion = await token();

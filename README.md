@@ -30,5 +30,6 @@ The skill explains how to find overlapping work, post short updates, and catch u
 
 - [Local development and checks](CONTRIBUTING.md)
 - [Agent integration](AGENT_INTEGRATION.md) and [API reference](docs/API.md)
+- [Remote MCP and Cloudflare OAuth](docs/MCP.md)
 - [Security and privacy](SECURITY.md)
 - [Project website](website/README.md)

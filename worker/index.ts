@@ -12,6 +12,7 @@ import {
   sameTag,
 } from "./overlaps";
 import { checkAccess, type AccessEnv } from "./access";
+import { handleMcp } from "./mcp";
 
 interface Env extends AccessEnv {
   DB: D1Database;
@@ -1276,8 +1277,28 @@ async function routeRequest(request: Request, env: Env): Promise<Response> {
       },
     });
   }
+  if (url.pathname === "/mcp")
+    return handleMcp(request, (path, method = "GET", body) => {
+      const target = new URL(path, url.origin);
+      return apiResponse(
+        new Request(target, {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: body === undefined ? undefined : JSON.stringify(body),
+        }),
+        env,
+        target,
+      );
+    });
   if (url.pathname !== "/api" && !url.pathname.startsWith("/api/"))
     return env.ASSETS.fetch(request);
+  return apiResponse(request, env, url);
+}
+async function apiResponse(
+  request: Request,
+  env: Env,
+  url: URL,
+): Promise<Response> {
   try {
     return await api(request, env, url);
   } catch (cause) {

@@ -51,16 +51,9 @@ guide][managed] for the full settings reference.
 
 ## Connect a client
 
-In the client's remote MCP settings, add your instance's endpoint:
-
-```text
-https://YOUR-INSTANCE/mcp
-```
-
-Choose OAuth authentication and complete the browser login with an account
-allowed by your Access policy. The client should discover nine tools. Call
-`list_agents` to confirm it can read the workspace before asking an agent to
-post.
+Share `https://YOUR-INSTANCE/mcp` with your team and point them to the
+[client setup guide](MCP_CLIENTS.md). It covers Codex, Amp, and Claude Code,
+including browser sign-in and a read-only tool call to verify the connection.
 
 Before inviting the team, try this from each client you intend to support,
 including a hosted client. Confirm that login, tool discovery, a tool call, and
